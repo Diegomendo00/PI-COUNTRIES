@@ -20,7 +20,7 @@ const getCountries = async (req, res) => {
     });
     await Country.bulkCreate(infoApi);
   } catch (error) {
-    res.send(error);
+    console.log(error);
   }
 };
 
@@ -30,7 +30,7 @@ const listCountries = async (req, res) => {
     if (!name) {
       const list = await Country.findAll(
         {
-          attributes: ["name", "image", "continent"],
+          attributes: ["id", "name", "image", "continent", "population"],
         },
         { include: [{ model: Activities }] }
       );
