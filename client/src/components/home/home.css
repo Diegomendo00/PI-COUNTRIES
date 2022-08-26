@@ -1,0 +1,7 @@
+.paises {
+  display: flex;
+  justify-content: center;
+  width: 140px;
+  height: 30px;
+  border-radius: 10px;
+}
