@@ -1,0 +1,16 @@
+.detalle {
+  background-color: rgba(57, 113, 128, 0.685);
+
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 150px;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.detalle img {
+  position: relative;
+  float: right;
+  width: 400px;
+  margin: 10px;
+}

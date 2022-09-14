@@ -55,17 +55,18 @@ export default function rootReducer(state = inicialState, action) {
         countries: filterCountries,
       };
     case FILTER_BY_ACTIVTY:
-      const countries = state.allCountries;
-      const activities = countries.activities.map((a) => a.name);
       let filter =
         action.payload === "sin filtro"
-          ? countries
-          : activities.filter((e) => e.name === action.payload);
-
+          ? state.allCountries
+          : state.allCountries.filter((country) => {
+              const activities = country.activities.map((a) => a.name);
+              return activities.includes(action.payload);
+            });
       return {
         ...state,
         countries: filter,
       };
+
     case ORDER_BY_NAME:
       const orderName =
         action.payload === "asc"

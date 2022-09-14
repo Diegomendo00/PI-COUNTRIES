@@ -1,11 +1,10 @@
-.paises {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 10vh;
-  cursor: pointer;
+.img {
+  border-radius: 20px;
 }
 
-.img {
-  border-radius: 100px;
+.card {
+  background-color: rgba(57, 113, 128, 0.685);
+  width: 33.3%;
+  display: inline;
+  padding-left: 10px;
 }

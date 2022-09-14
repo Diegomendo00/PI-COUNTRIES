@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { getActivities, postActivities } from "../../Actions";
 import { useDispatch, useSelector } from "react-redux";
+import "./newActivity.css";
 
 function validate(input) {
   let errors = {};
@@ -28,7 +29,7 @@ function validate(input) {
     errors.season = "Elija una temporada";
   }
 
-  if (input.countryName.length === 0) {
+  if (input.countryName.length < 1) {
     errors.countryName = "Seleccione por lo menos un pais";
   }
   return errors;
@@ -45,7 +46,7 @@ export default function ActivityCreate() {
     season: "",
     countryName: [],
   });
-
+  console.log("PAISESSSS", countries);
   useEffect(() => {
     dispatch(getActivities());
   }, [dispatch]);
@@ -66,7 +67,7 @@ export default function ActivityCreate() {
   function handleSelection(e) {
     setInput({
       ...input,
-      countryName: [...input.countryName, e.target.value],
+      countryName: [...new Set([...input.countryName, e.target.value])],
     });
     setErrors(
       validate({
@@ -122,84 +123,98 @@ export default function ActivityCreate() {
       <Link to="/home">
         <button>Volver</button>
       </Link>
+
       <h1>Crea una Actividad</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
-          <label>Nombre de la actividad:</label>
-          <input
-            type="text"
-            value={input.name}
-            name="name"
-            onChange={(e) => handleChange(e)}
-          />
-          {errors.name && <p>{errors.name}</p>}
-        </div>
-        <div>
-          <label>Grado de dificultad:</label>
-          <input
-            type="number"
-            name="difficulty"
-            value={input.difficulty}
-            placeholder="Valor entre 1 y 5..."
-            onChange={(e) => handleChange(e)}
-          />
-          {errors.difficulty && <p>{errors.difficulty}</p>}
-        </div>
-        <div>
-          <label>Tiempo estimado:</label>
-          <input
-            type="number"
-            value={input.duration}
-            name="duration"
-            onChange={(e) => handleChange(e)}
-            placeholder="duracion en horas..."
-          />
-          {errors.duration && <p>{errors.duration}</p>}
-        </div>
-        <div>
-          <label>Temporada:</label>
-          <select onChange={(e) => handleSelectSeason(e)}>
-            <option selected disabled>
-              Seleccionar
-            </option>
-            <option value="Primavera">Primavera</option>
-            <option value="Verano">Verano</option>
-            <option value="Otoño">Otoño</option>
-            <option value="Invierno">Invierno</option>
-          </select>
-          {errors.season && <p>{errors.season}</p>}
-        </div>
-        <div>
-          <label>Paises: </label>
-          <select onChange={(e) => handleSelection(e)}>
-            <option name="countryName" selected disabled>
-              Destinos
-            </option>
-            {countries.map((e) => (
-              <option value={e.name}>{e.name}</option>
-            ))}
-          </select>
-          {errors.countryName && <p>{errors.countryName}</p>}
-          <ul>
-            <li>{input.countryName.map((el) => el + ",")}</li>
-          </ul>
-          {errors.name ||
-          errors.difficulty ||
-          errors.duration ||
-          errors.season ||
-          errors.countryName ? (
-            <button disabled>Crear Actividad</button>
-          ) : (
-            <button type="submit">Crear Actividad </button>
-          )}
-        </div>
-      </form>
-      {input.countryName.map((el) => (
-        <div>
-          <p>{el.name}</p>
-          <button onClick={() => handleDelete(el)}>X</button>
-        </div>
-      ))}
+      <div>
+        <form className="cajon" onSubmit={(e) => handleSubmit(e)}>
+          <div>
+            <label>Paises: </label>
+            <select onChange={(e) => handleSelection(e)}>
+              <option selected disabled>
+                Destinos
+              </option>
+              {countries.map((e) => (
+                <option name="countryName" value={e.name}>
+                  {e.name}
+                </option>
+              ))}
+            </select>
+            {errors.countryName && <p>{errors.countryName}</p>}
+            <div className="opciones">
+              <ul>
+                {input.countryName.map((el) => (
+                  <ul className="p">{el} </ul>
+                ))}
+              </ul>
+              <div>
+                {input.countryName.map((el) => (
+                  <>
+                    <p>{el.name}</p>
+                    <button onClick={() => handleDelete(el)}>X</button>
+                  </>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div>
+            <label>Temporada:</label>
+            <select onChange={(e) => handleSelectSeason(e)}>
+              <option selected disabled>
+                Seleccionar
+              </option>
+              <option value="Primavera">Primavera</option>
+              <option value="Verano">Verano</option>
+              <option value="Otoño">Otoño</option>
+              <option value="Invierno">Invierno</option>
+            </select>
+            {errors.season && <p>{errors.season}</p>}
+          </div>
+          <div>
+            <label>Nombre de la actividad:</label>
+            <input
+              type="text"
+              value={input.name}
+              name="name"
+              onChange={(e) => handleChange(e)}
+            />
+            {errors.name && <p>{errors.name}</p>}
+          </div>
+          <div>
+            <label>Grado de dificultad:</label>
+            <input
+              type="number"
+              name="difficulty"
+              value={input.difficulty}
+              placeholder="Valor entre 1 y 5..."
+              onChange={(e) => handleChange(e)}
+            />
+            {errors.difficulty && <p>{errors.difficulty}</p>}
+          </div>
+          <div>
+            <label>Tiempo estimado:</label>
+            <input
+              type="number"
+              value={input.duration}
+              name="duration"
+              onChange={(e) => handleChange(e)}
+              placeholder="duracion en horas..."
+            />
+            {errors.duration && <p>{errors.duration}</p>}
+          </div>
+
+          <div>
+            {errors.name ||
+            errors.difficulty ||
+            errors.duration ||
+            errors.season ||
+            errors.countryName ? (
+              <button disabled>Crear Actividad</button>
+            ) : (
+              <button type="submit">Crear Actividad </button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

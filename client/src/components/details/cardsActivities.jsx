@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function CardActivities({ name, difficulty, duration, season }) {
+  console.log("seasonCardd", season);
   return (
     <div>
       <h2>Actividad: {name}</h2>

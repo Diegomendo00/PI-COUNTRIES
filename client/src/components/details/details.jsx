@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getDetails } from "../../Actions";
 import CardsActivities from "./cardsActivities";
+import "./details.css";
 
 export default function Details() {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export default function Details() {
 
   useEffect(() => {
     dispatch(getDetails(id));
-  });
+  }, [dispatch]);
 
   const countries = useSelector((state) => state.details);
 
@@ -24,8 +25,8 @@ export default function Details() {
   return (
     <div>
       {countries && countries.id ? (
-        <div>
-          <h1>{countries.name}</h1>
+        <div className="detalle">
+          <h1>{countries.name.toUpperCase()}</h1>
           <img src={countries.image} alt="" />
           <h2>Id: {countries.id}</h2>
           <h2>Continente: {countries.continent}</h2>
@@ -42,7 +43,7 @@ export default function Details() {
                     name={el.name}
                     difficulty={el.difficulty}
                     duration={el.duration}
-                    temporada={el.season}
+                    season={el.season}
                   />
                 </div>
               );

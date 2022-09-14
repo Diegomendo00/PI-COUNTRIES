@@ -44,19 +44,17 @@ export function postActivities(payload) {
     }
   };
 }
-// export function postActivities(post) {
+
+// export function getActivities() {
 //   return async function (dispatch) {
 //     try {
-//       return fetch("http://localhost:3001/activities", {
-//         method: "POST",
-//         post,
-//       })
+//       return fetch("http://localhost:3001/activities")
 //         .then((res) => res.json())
-//         .then((data) => {
-//           dispatch({ type: POST_ACTIVITY, payload: data });
+//         .then((activity) => {
+//           dispatch({ type: GET_ACTIVITY, payload: activity });
 //         });
 //     } catch (error) {
-//       throw new Error(error);
+//       console.log({ error });
 //     }
 //   };
 // }
@@ -64,14 +62,14 @@ export function postActivities(payload) {
 export function getActivities() {
   return async function (dispatch) {
     try {
-      return fetch("http://localhost:3001/activities")
-        .then((res) => res.json())
-        .then((activity) => {
-          dispatch({ type: GET_ACTIVITY, payload: activity });
-        });
+      let json = await axios.get("http://localhost:3001/activities");
+      return dispatch({
+        type: GET_ACTIVITY,
+        payload: json.data,
+      });
     } catch (error) {
-      console.log({ error });
-    }
+		 console.log( error );
+	 }
   };
 }
 
