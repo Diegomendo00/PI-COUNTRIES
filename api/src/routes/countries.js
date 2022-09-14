@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const { listCountries, getDetail } = require("../controllers/countries");
+const { listCountries, getDetail, getMaxPopulation } = require("../controllers/countries");
 const { Country, Activities } = require("../db");
 
 router.get("", listCountries);
@@ -14,4 +14,7 @@ router.get("/:id", async (req, res) => {
     res.status(400).send(error);
   }
 });
+
+router.get("/population",getMaxPopulation 
+)
 module.exports = router;

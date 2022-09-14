@@ -28,12 +28,7 @@ const listCountries = async (req, res) => {
   const { name } = req.query;
   try {
     if (!name) {
-      const list = await Country.findAll(
-        {
-          attributes: ["id", "name", "image", "continent", "population"],
-        },
-        { include: [{ model: Activities }] }
-      );
+      const list = await Country.findAll({ include: [{ model: Activities }] });
       res.status(200).json(list);
     } else {
       const country = await Country.findAll({
@@ -66,4 +61,15 @@ const getDetail = async (name) => {
   return country;
 };
 
-module.exports = { getCountries, listCountries, getDetail };
+const getMaxPopulation = async (req, res) => {
+  const paises = await axios.get("https://restcountries.com/v3/all");
+  const poblacion = await paises.data.map((e) => {
+    return {
+      population: e.population,
+    };
+  });
+
+  res.send();
+};
+
+module.exports = { getCountries, listCountries, getDetail, getMaxPopulation };

@@ -10,7 +10,7 @@ const createAct = async (req, res) => {
       name,
       difficulty,
       duration,
-      season
+      season,
     });
 
     const country = await Country.findAll({
